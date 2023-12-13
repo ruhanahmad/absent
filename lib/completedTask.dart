@@ -116,7 +116,7 @@ final documents = snapshot.data!.docs;
                    
                     return ListTile(
                       title: Text(task),
-                      subtitle: onTime == "OnTime" ? Text("Done on Time"):Text("Not in Time $cusName"),
+                      subtitle: onTime == "OnTime" ? Text("Done on time") :onTime == "null" ? Text("InProgress"):Text("Not in Time $cusName"),
 //                       trailing: 
 //                       GestureDetector(
 //                         onTap: () async{

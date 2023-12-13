@@ -115,37 +115,44 @@ final documents = snapshot.data!.docs;
                 var diets = documents[index]['deadLine']; 
                  var onTime = documents[index]['onTime']; 
                  var totalTime = documents[index]['totalTime']; 
+                 var runn = documents[index]['isRunning']; 
                  
 
                     return 
-                    Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                        Text(task,style: TextStyle(fontSize: 25),),
-                        Text(diets),
-                    Row(
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                             ElevatedButton(
-              onPressed: () => isRunning ? pauseTimer(ids,cusName,totalTime) : startTimer(ids),
-              child: Text(isRunning ? 'Pause' : 'Start'),
-            ),
-            ElevatedButton(
-              onPressed: () =>
-completeTask(ids,cusName,totalTime,diets)
-              ,
-              child: Text('Complete'),
-            ),
-                            // Container(
-                            //   height: 50,
-                            //   width: 80,
-                            //   color: Colors.amber,
-                              
-                            //                     child: Center(child: Text("Complete")),
-                            // ),
-                          ],
-                        ),
-                      ],),
+                          Text("Task:  " + task,style: TextStyle(fontSize: 25),),
+                          Text("Deadline  " + diets + " hour"),
+                          SizedBox(height: 10,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                               ElevatedButton(
+                                    onPressed: () => runn == true ? pauseTimer(ids,cusName,totalTime) : startTimer(ids),
+                                    child: Text( runn == true ? 'Pause' : 'Start'),
+                                  ),
+                      
+                                  ElevatedButton(
+                                    onPressed: () =>
+                      completeTask(ids,cusName,totalTime,diets)
+                                    ,
+                                    child: Text('Complete'),
+                                  ),
+                              // Container(
+                              //   height: 50,
+                              //   width: 80,
+                              //   color: Colors.amber,
+                                
+                              //                     child: Center(child: Text("Complete")),
+                              // ),
+                            ],
+                          ),
+                        ],),
+                      ),
                     );
                     
                     
@@ -238,15 +245,16 @@ completeTask(ids,cusName,totalTime,diets)
 
 
  void startTimer(String ids)async {
-  setState(() {
-     isRunning = true; 
-  });
+  // setState(() {
+  //    isRunning = true; 
+  // });
    
        await FirebaseFirestore.instance
         .collection('tasks')
         .doc(ids)
         .update({
       'startTime': DateTime.now(),
+      "isRunning":true
       
     });
      
@@ -255,15 +263,16 @@ completeTask(ids,cusName,totalTime,diets)
   }
 
   void pauseTimer(String ids,var ss,int totalTime)async {
-    setState(() {
-      isRunning = false; 
-    });
+    // setState(() {
+    //   isRunning = false; 
+    // });
      
        await FirebaseFirestore.instance
         .collection('tasks')
         .doc(ids)
         .update({
       'totalTime': totalTime + DateTime.now().difference(ss.toDate()).inMilliseconds,
+      "isRunning":false,
       
     });
     //  currentTask.totalTime += DateTime.now().difference(currentTask.startTime).inMilliseconds;
@@ -271,15 +280,16 @@ completeTask(ids,cusName,totalTime,diets)
   }
 
   void completeTask(String ids,var ss,int totalTime,String deadlinez) async {
-    setState(() {
-    isRunning = false;     
-    });
+    // setState(() {
+    // isRunning = false;     
+    // });
  
        await FirebaseFirestore.instance
         .collection('tasks')
         .doc(ids)
         .update({
       'totalTime': totalTime + DateTime.now().difference(ss.toDate()).inMilliseconds,
+      "isRunning":false,
       
     });
     int remainingTime = int.parse(deadlinez) - (totalTime / (1000 * 60 * 60)).round();

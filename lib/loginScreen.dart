@@ -125,15 +125,15 @@ class _LoginScreenState extends State<LoginScreen> {
               onPressed: _signIn,
               child: Text('Sign In'),
             ),
-             ElevatedButton(
-              onPressed:
-              () {
-       Get.to(()=>SignUpScreen());
-              },
+      //        ElevatedButton(
+      //         onPressed:
+      //         () {
+      //  Get.to(()=>SignUpScreen());
+      //         },
               
         
-              child: Text('SignUp'),
-            ),
+      //         child: Text('SignUp'),
+      //       ),
           ],
         ),
       ),

@@ -5,6 +5,7 @@ import 'package:atten/loginScreen.dart';
 import 'package:atten/pioneer.dart';
 import 'package:atten/shared.dart';
 import 'package:atten/showTask.dart';
+import 'package:atten/tabbarsss.dart';
 import 'package:atten/task.dart';
 import 'package:atten/times.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +44,7 @@ String username = PreferencesManager.instance.getUserName();
   //  TaskScreen(),
   // VideoEditingScreen(),
   //  Timess(),
-    TaskAssignmentScreen(), 
+   FilesPending(), 
 
   ];  
   
@@ -69,7 +70,7 @@ String username = PreferencesManager.instance.getUserName();
         items: const <BottomNavigationBarItem>[  
           BottomNavigationBarItem(  
             icon: Icon(Icons.link),  
-            label: "Attendance",  
+            label: "Tasks",  
             backgroundColor: Colors.white  ,
            
            
@@ -77,7 +78,7 @@ String username = PreferencesManager.instance.getUserName();
           ),  
           BottomNavigationBarItem(  
             icon: Icon(Icons.comment),  
-         label: "Time",  
+         label: "Completed",  
             backgroundColor: Colors.white, 
           ),  
 

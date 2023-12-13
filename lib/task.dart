@@ -69,48 +69,11 @@ class _TaskAssignmentScreenState extends State<TaskAssignmentScreen> {
                 controller: deadLineController,
                 decoration: InputDecoration(labelText: 'Enter Hours Deadline'),
               ),
-              //   Row(
-              //     children: [
-              //       ElevatedButton(
-              //   onPressed: () async {
-              //     final pickedDate = await showDatePicker(
-              //       context: context,
-              //       initialDate: _selectedDeadline,
-              //       firstDate: DateTime.now(),
-              //       lastDate: DateTime(2101),
-              //     );
-          
-              //     if (pickedDate != null) {
-              //       final pickedTime = await showTimePicker(
-              //         context: context,
-              //         initialTime: TimeOfDay.fromDateTime(_selectedDeadline),
-              //       );
-          
-              //       if (pickedTime != null) {
-              //         setState(() {
-              //           _selectedDeadline = DateTime(
-              //             pickedDate.year,
-              //             pickedDate.month,
-              //             pickedDate.day,
-              //             pickedTime.hour,
-              //             pickedTime.minute,
-              //           );
-              //         });
-              //       }
-              //     }
-              //   },
-              //   child: Text('Pick Deadline'),
-              // ),
-              //                   Text(
-              //   'Selected Time: ${_selectedTime.format(context)}',
-              //   style: TextStyle(fontSize: 20),
-              // ),
-              //     ],
-              //   ),
+
                SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () {
-                  assignTask(idUser);
+                  assignTask(idUser,selectedUser);
                 },
                 child: Text('Assign Task'),
               ),
@@ -158,7 +121,7 @@ class _TaskAssignmentScreenState extends State<TaskAssignmentScreen> {
   }
  
 
-  void assignTask(String idUsersid) async {
+  void assignTask(String idUsersid,String selectedUser) async {
    // String username =  await PreferencesManager.instance.getUserName(); 
     EasyLoading.show();
     if (selectedUser.isNotEmpty && taskController.text.isNotEmpty) {
@@ -170,9 +133,12 @@ class _TaskAssignmentScreenState extends State<TaskAssignmentScreen> {
         'startTime': DateTime.now(),
         "idUser":idUsersid,
         "deadLine":deadLineController.text,
-        "completeTime":"DateTime.now(),",
+        "completeTime":"null",
         "totalTime":0,
-        "onTime":"null"
+        "onTime":"null",
+        "userName":selectedUser,
+        "isRunning":false
+
       });
 
       // Clear the task text field
