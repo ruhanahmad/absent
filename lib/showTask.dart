@@ -83,7 +83,8 @@ Future<void> _updateTask(String id,DateTime deadlines) async {
                 ),],
         ),
         body: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance
+          stream: 
+          FirebaseFirestore.instance
               .collection('tasks')
               .where("idUser", isEqualTo: username).where("status",isEqualTo: false)
               .snapshots(),
@@ -289,10 +290,31 @@ final documents = snapshot.data!.docs;
         .doc(ids)
         .update({
       'totalTime': totalTime + DateTime.now().difference(ss.toDate()).inMilliseconds,
+      
       "isRunning":false,
       
     });
-    int remainingTime = int.parse(deadlinez) - (totalTime / (1000 * 60 * 60)).round();
+     var jij;
+
+setState(() async{
+  jij  =    await FirebaseFirestore.instance
+        .collection('tasks')
+        .doc(ids)
+        .get().then((value) => value["totalTime"]);
+
+        print(jij);
+});
+  //  var jij =    await FirebaseFirestore.instance
+  //       .collection('tasks')
+  //       .doc(ids)
+  //       .get().then((value) => value["totalTime"]);
+
+  //       print(jij);
+  //    var jij;
+  //   setState(() {
+  // jij = totalTime + DateTime.now().difference(ss.toDate()).inMilliseconds;
+  //   });
+    int remainingTime = int.parse(deadlinez) - (int.parse(jij) / (1000 * 60 * 60)).round();
     print(remainingTime >= 0 ? 'Task completed on time!' : 'Task exceeded the deadline!');
 
     // Update Firebase with task completion details
@@ -307,7 +329,7 @@ final documents = snapshot.data!.docs;
         .collection('tasks')
         .doc(ids)
         .update({
-      "totalTime":totalTime,
+      // "totalTime":totalTime,
       "completeTime": remainingTime >= 0 ? "OnTime":"noTime",
       "status":true,
   
