@@ -137,12 +137,21 @@ final documents = snapshot.data!.docs;
                                     child: Text( runn == true ? 'Pause' : 'Start'),
                                   ),
                       
-                                  ElevatedButton(
+                                runn == true ?  ElevatedButton(
                                     onPressed: () =>
                       completeTask(ids,cusName,totalTime,diets)
                                     ,
                                     child: Text('Complete'),
-                                  ),
+                                  )
+                                  :
+                                  Container()
+                      //             ElevatedButton(
+                      //               onPressed: () =>
+                      // completeTask(ids,cusName,totalTime,diets)
+                      //               ,
+                      //               child: Text("  "),
+                      //             )
+                                  ,
                               // Container(
                               //   height: 50,
                               //   width: 80,
@@ -294,16 +303,16 @@ final documents = snapshot.data!.docs;
       "isRunning":false,
       
     });
-     var jij;
+     int jij;
 
-setState(() async{
+// setState(() async{
   jij  =    await FirebaseFirestore.instance
         .collection('tasks')
         .doc(ids)
         .get().then((value) => value["totalTime"]);
 
         print(jij);
-});
+// });
   //  var jij =    await FirebaseFirestore.instance
   //       .collection('tasks')
   //       .doc(ids)
@@ -314,7 +323,7 @@ setState(() async{
   //   setState(() {
   // jij = totalTime + DateTime.now().difference(ss.toDate()).inMilliseconds;
   //   });
-    int remainingTime = int.parse(deadlinez) - (int.parse(jij) / (1000 * 60 * 60)).round();
+    int remainingTime = int.parse(deadlinez) - (jij / (1000 * 60 * 60)).round();
     print(remainingTime >= 0 ? 'Task completed on time!' : 'Task exceeded the deadline!');
 
     // Update Firebase with task completion details
