@@ -1,19 +1,21 @@
 import 'dart:async';
 
+import 'package:atten/completed.dart';
+import 'package:atten/inProgress.dart';
+import 'package:atten/paused.dart';
 import 'package:atten/showAllUser.dart';
-import 'package:atten/tabbarthree.dart';
 import 'package:atten/task.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 
 
-class FilesPending extends StatefulWidget {
+class Filis extends StatefulWidget {
   @override
-  State<FilesPending> createState() => _FilesPendingState();
+  State<Filis> createState() => _FilisState();
 }
 
-class _FilesPendingState extends State<FilesPending> {
+class _FilisState extends State<Filis> {
 
 
   
@@ -67,17 +69,18 @@ List<String>? documents;
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3, // Number of tabs
+      length: 4, // Number of tabs
       child: Scaffold(
         
         appBar: AppBar(
         automaticallyImplyLeading: false,
           bottom: TabBar(
             tabs: [
-             Tab(text: 'Assign Task'),
+             Tab(text: 'All'),
           //  Tab(text:  'Payments'),
-             Tab(text: 'Assigned'),
-             Tab(text: 'Working'),
+             Tab(text: 'InProgress'),
+                Tab(text: 'Completed')   ,
+                Tab(text: 'Paused')           
            
               
              
@@ -87,11 +90,12 @@ List<String>? documents;
         body: TabBarView(
           children: [
             // Contents of Tab 1
-            TaskAssignmentScreen(),
+            // TaskAssignmentScreen(),
             // Contents of Tab 2
-         Filis(),
-           Filis(),
-         
+          UserTasks(),
+            InProgress(),
+             Completed(),
+             Paused()
             // FilesPFinished(),
             
           ],

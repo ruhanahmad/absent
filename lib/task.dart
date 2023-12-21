@@ -137,7 +137,8 @@ class _TaskAssignmentScreenState extends State<TaskAssignmentScreen> {
         "totalTime":0,
         "onTime":"null",
         "userName":selectedUser,
-        "isRunning":false
+        "isRunning":false,
+        "InitialTime":DateTime.now()
 
       });
 

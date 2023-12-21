@@ -110,6 +110,10 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+             Container(
+                height: MediaQuery.of(context).size.height * 0.3,
+                child: Image.asset('assets/file.png'), // Replace with your logo
+              ),
             TextField(
               controller: _emailController,
               decoration: InputDecoration(labelText: 'Email'),
@@ -125,15 +129,16 @@ class _LoginScreenState extends State<LoginScreen> {
               onPressed: _signIn,
               child: Text('Sign In'),
             ),
-      //        ElevatedButton(
-      //         onPressed:
-      //         () {
-      //  Get.to(()=>SignUpScreen());
-      //         },
+              SizedBox(height: 20),
+             ElevatedButton(
+              onPressed:
+              () {
+       Get.to(()=>SignUpScreen());
+              },
               
         
-      //         child: Text('SignUp'),
-      //       ),
+              child: Text('SignUp'),
+            ),
           ],
         ),
       ),

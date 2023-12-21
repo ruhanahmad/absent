@@ -116,7 +116,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login'),
+        title: Text('Sign up'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -139,11 +139,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
               decoration: InputDecoration(labelText: 'username'),
               // obscureText: true,
             ), 
-           
+           SizedBox(height: 20,),
             ElevatedButton(
-              onPressed: _signIn,
+              onPressed:
+              (){
+                 _emailController.text.isEmpty == true  || _passwordController.text.isEmpty == true || _userNameController.text.isEmpty == true  ? Get.snackbar("Error", "Fill all feilds"): _signIn() ;
+                  
+              }
+              
+             
+            
+              ,
               child: Text('SignUp'),
             ),
+
+
           ],
         ),
       ),

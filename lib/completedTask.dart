@@ -17,75 +17,64 @@ class _CompletedTasksState extends State<CompletedTasks> {
   TextEditingController taskController = TextEditingController();
   String username = PreferencesManager.instance.getUserName();
 
-
-Future<void> _updateTask(String id,DateTime deadlines) async {
- 
-
+  Future<void> _updateTask(String id, DateTime deadlines) async {
     final currentTime = DateTime.now();
     final deadline = deadlines;
- final Duration difference = currentTime.difference(deadline);
+    final Duration difference = currentTime.difference(deadline);
 
     if (difference.isNegative) {
       // Time exceeds the deadline
       final exceededTime = -difference;
-      final formattedExceededTime =
-          DateFormat.Hms().format(DateTime(0, 1, 1, exceededTime.inHours, exceededTime.inMinutes % 60));
+      final formattedExceededTime = DateFormat.Hms().format(
+          DateTime(0, 1, 1, exceededTime.inHours, exceededTime.inMinutes % 60));
       print('Time Exceeded by $formattedExceededTime');
-         await FirebaseFirestore.instance
-        .collection('tasks')
-        .doc(id)
-        .update({
-      'status': true,
-      'completeTime': currentTime,
-      "onTime":"Completed on Time",
-    });
+      await FirebaseFirestore.instance.collection('tasks').doc(id).update({
+        'status': true,
+        'completeTime': currentTime,
+        "onTime": "Completed on Time",
+      });
       // return formattedExceededTime.toString();
     } else {
-          await FirebaseFirestore.instance
-        .collection('tasks')
-        .doc(id)
-        .update({
-      'status': true,
-      'completeTime': currentTime,
-      "onTime":"Completed on Time",
-    });
+      await FirebaseFirestore.instance.collection('tasks').doc(id).update({
+        'status': true,
+        'completeTime': currentTime,
+        "onTime": "Completed on Time",
+      });
     }
     // Update task status and complete time
- 
 
     // Reload tasks
     // _loadTasks();
 
     // Calculate and show the time difference
-   
   }
 
-    Future<String?> _calculateTimeDifference(DateTime currentTime, DateTime deadline)async {
-   
-    
-  }
+  Future<String?> _calculateTimeDifference(
+      DateTime currentTime, DateTime deadline) async {}
 
   @override
   Widget build(BuildContext context) {
     print(username);
     return Scaffold(
-      
         appBar: AppBar(
           automaticallyImplyLeading: false,
           title: Text('Task Assignment App'),
-          actions: [  ElevatedButton(
-                  onPressed: ()async{
-                      await FirebaseAuth.instance.signOut();
-                      Get.to(()=>LoginScreen());
-                    PreferencesManager.instance.removeUserName();
-                  },
-                  child: Text('Sign out'),
-                ),],
+          actions: [
+            ElevatedButton(
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+                Get.to(() => LoginScreen());
+                PreferencesManager.instance.removeUserName();
+              },
+              child: Text('Sign out'),
+            ),
+          ],
         ),
         body: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
               .collection('tasks')
-              .where("idUser", isEqualTo: username).where("status",isEqualTo: true)
+              .where("idUser", isEqualTo: username)
+              .where("status", isEqualTo: true)
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -101,76 +90,94 @@ Future<void> _updateTask(String id,DateTime deadlines) async {
               //      List<String> docus = snapshot.data!.docs
               //     .map((doc) => doc.id)
               //     .toList();
-final documents = snapshot.data!.docs;
+              final documents = snapshot.data!.docs;
               return Container(
-                height: MediaQuery.of(context).size.height -40,
+                height: MediaQuery.of(context).size.height - 40,
                 width: MediaQuery.of(context).size.width,
                 child: ListView.builder(
                   itemCount: documents.length,
                   itemBuilder: (BuildContext context, int index) {
-                         var ids = documents[index].id;
-                       var cusName = documents[index]['startTime'].toDate();
-                var task = documents[index]['task'];
-                var diets = documents[index]['deadLine']; 
-                 var onTime = documents[index]['completeTime']; 
-                   
-                    return ListTile(
-                      title: Text(task),
-                      subtitle: onTime == "OnTime" ? Text("Done on time") :onTime == "null" ? Text("InProgress"):Text("Not in Time $cusName"),
-//                       trailing: 
-//                       GestureDetector(
-//                         onTap: () async{
-// //  setState(() {
+                    var ids = documents[index].id;
+                    var cusName = documents[index]['startTime'].toDate();
+                    var task = documents[index]['task'];
+                    var diets = documents[index]['deadLine'];
+                    var onTime = documents[index]['completeTime'];
 
-//               //                 FirebaseFirestore.instance
-//               // .collection('tasks').doc(ids).update({"status":true,"timestamp":DateTime.now()});
-//               // _updateTask(ids,diets);
-
-
-//  final currentTime = DateTime.now();
-//     final deadline = diets.toDate();
-    
-//  final Duration difference = currentTime.difference(deadline);
-
-//     if (difference.isNegative) {
-//       // Time exceeds the deadline
-//       final exceededTime = -difference;
-//       final formattedExceededTime =
-//           DateFormat.Hms().format(DateTime(0, 1, 1, exceededTime.inHours, exceededTime.inMinutes % 60));
-//       print('Time Exceeded by $formattedExceededTime');
-//          await FirebaseFirestore.instance
-//         .collection('tasks')
-//         .doc(ids)
-//         .update({
-//       'status': true,
-//       'completeTime': DateTime.now(),
-//       "onTime":"noTime",
-//       "timestamp":formattedExceededTime.toString()
-//     });
-//       // return formattedExceededTime.toString();
-//     } else {
-//           await FirebaseFirestore.instance
-//         .collection('tasks')
-//         .doc(ids)
-//         .update({
-//       'status': true,
-//       'completeTime': DateTime.now(),
-//       "onTime":"onTime",
-//       "timestamp":"ASD"
-//     });
-//     }
-//                             // });
-//                         },
-//                         child: Container(
-//                           height: 50,
-//                           width: 80,
-//                           color: Colors.amber,
-                          
-//                                             child: Center(child: Text("Complete")),
-//                         ),
-//                       ),
-                    
-                      // onTap: () {},
+                    return Card(
+                      child: ListTile(
+                        title: Text(
+                          task,
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: onTime == "OnTime"
+                            ? Text(
+                                "Done on time",
+                                style: TextStyle(
+                                    color: Colors.green,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            : onTime == "null"
+                                ? Text("InProgress",style: TextStyle(
+                                    color: Colors.orange,
+                                    fontWeight: FontWeight.bold),)
+                                : Text("Not in Time $cusName",style: TextStyle(
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold),),
+                        //                       trailing:
+                        //                       GestureDetector(
+                        //                         onTap: () async{
+                        // //  setState(() {
+                      
+                        //               //                 FirebaseFirestore.instance
+                        //               // .collection('tasks').doc(ids).update({"status":true,"timestamp":DateTime.now()});
+                        //               // _updateTask(ids,diets);
+                      
+                        //  final currentTime = DateTime.now();
+                        //     final deadline = diets.toDate();
+                      
+                        //  final Duration difference = currentTime.difference(deadline);
+                      
+                        //     if (difference.isNegative) {
+                        //       // Time exceeds the deadline
+                        //       final exceededTime = -difference;
+                        //       final formattedExceededTime =
+                        //           DateFormat.Hms().format(DateTime(0, 1, 1, exceededTime.inHours, exceededTime.inMinutes % 60));
+                        //       print('Time Exceeded by $formattedExceededTime');
+                        //          await FirebaseFirestore.instance
+                        //         .collection('tasks')
+                        //         .doc(ids)
+                        //         .update({
+                        //       'status': true,
+                        //       'completeTime': DateTime.now(),
+                        //       "onTime":"noTime",
+                        //       "timestamp":formattedExceededTime.toString()
+                        //     });
+                        //       // return formattedExceededTime.toString();
+                        //     } else {
+                        //           await FirebaseFirestore.instance
+                        //         .collection('tasks')
+                        //         .doc(ids)
+                        //         .update({
+                        //       'status': true,
+                        //       'completeTime': DateTime.now(),
+                        //       "onTime":"onTime",
+                        //       "timestamp":"ASD"
+                        //     });
+                        //     }
+                        //                             // });
+                        //                         },
+                        //                         child: Container(
+                        //                           height: 50,
+                        //                           width: 80,
+                        //                           color: Colors.amber,
+                      
+                        //                                             child: Center(child: Text("Complete")),
+                        //                         ),
+                        //                       ),
+                      
+                        // onTap: () {},
+                      ),
                     );
                   },
                 ),
@@ -179,20 +186,9 @@ final documents = snapshot.data!.docs;
           },
         ));
   }
-
-
-
-
 }
 
-
-
-
-
-
 //////////////////////
-
-
 
 // class Task {
 //   String taskName;
@@ -207,8 +203,6 @@ final documents = snapshot.data!.docs;
 //     this.totalTime = 0,
 //   });
 // }
-
-
 
 // class TaskScreen extends StatefulWidget {
 //   @override
