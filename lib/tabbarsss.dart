@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:atten/pendingt/ask.dart';
 import 'package:atten/showAllUser.dart';
 import 'package:atten/tabbarthree.dart';
 import 'package:atten/task.dart';
@@ -77,7 +78,8 @@ List<String>? documents;
              Tab(text: 'Assign Task'),
           //  Tab(text:  'Payments'),
              Tab(text: 'Assigned'),
-             Tab(text: 'Working'),
+          //   Tab(text: 'Working'),
+            Tab(text: 'Pending Task'),
            
               
              
@@ -90,7 +92,8 @@ List<String>? documents;
             TaskAssignmentScreen(),
             // Contents of Tab 2
          Filis(),
-           Filis(),
+         Ask(),
+         //  Filis(),
          
             // FilesPFinished(),
             

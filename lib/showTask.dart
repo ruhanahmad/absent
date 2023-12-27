@@ -20,7 +20,7 @@ RecordList({required this.wait});
      StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
           .collection('tasks')
-          .where('userName', isEqualTo: wait)
+          .where('idUser', isEqualTo: wait)
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -30,7 +30,7 @@ RecordList({required this.wait});
         if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         }
-
+         print(wait);
         final records = snapshot.data?.docs ?? [];
         bool isWorking = records.any((record) => record['isRunning'] == true);
 
@@ -43,7 +43,9 @@ RecordList({required this.wait});
   }
 
   Widget _buildStatusMessage(bool isWorking) {
+    print(isWorking);
     if (isWorking) {
+
       return Text('We love you becuase You are working. Keep it up!');
     } else {
       return Text('You are not working. Please start a task and save the world');
@@ -130,10 +132,24 @@ print(futureDateTime);
     return remainingTimeShow;
   }
 
+  Future<void> addNewFieldToTasks() async {
+  // Reference to the "tasks" collection
+  CollectionReference tasks = FirebaseFirestore.instance.collection('tasks');
+
+  // Get all documents in the collection
+  QuerySnapshot querySnapshot = await tasks.get();
+
+  // Iterate through each document and update it with the new field
+  for (QueryDocumentSnapshot document in querySnapshot.docs) {
+    await tasks.doc(document.id).update({'pending': false});
+  }
+}
+
   @override
   Widget build(BuildContext context) {
     print(username);
     return Scaffold(
+      
         appBar: AppBar(
           automaticallyImplyLeading: false,
           title: Text('Task Assignment App'),
@@ -148,6 +164,17 @@ print(futureDateTime);
               },
               child: Text('Sign out'),
             ),
+            // ElevatedButton(
+            //   onPressed: () async {
+            //     // await FirebaseAuth.instance.signOut();
+            //     // PreferencesManager.instance.removeUserName();
+            //     // Get.to(() => LoginScreen());
+
+            //     // StorageServices.to.remove("userId");
+            //  await   addNewFieldToTasks();
+            //   },
+            //   child: Text('Sign '),
+            // ),
           ],
         ),
         body: Column(
@@ -158,6 +185,7 @@ print(futureDateTime);
                   .collection('tasks')
                   .where("idUser", isEqualTo: username)
                   .where("status", isEqualTo: false)
+                  .where("pending", isEqualTo: false)
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {

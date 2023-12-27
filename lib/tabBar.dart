@@ -1,4 +1,5 @@
 import 'package:atten/completedTask.dart';
+import 'package:atten/fromEmpTask.dart';
 import 'package:atten/homeScreen.dart';
 import 'package:atten/loginScreen.dart';
 import 'package:atten/pioneer.dart';
@@ -25,7 +26,7 @@ class _SiteEngineerState extends State<SiteEngineer> {
     //  Timess(),
     CompletedTasks(),
     //  TaskScreen(),
-    VideoEditingScreen(),
+    AssignByEmp(),
     //  Timess(),
     // TaskAssignmentScreen(),
   ];
