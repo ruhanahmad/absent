@@ -35,7 +35,7 @@ class _AssignByEmpState extends State<AssignByEmp> {
    String username = PreferencesManager.instance.getUserName();
   @override
   Widget build(BuildContext context) {
-    
+    print(username);
     return Scaffold(
       appBar: AppBar(
         title: Text('Task Assignment App'),
@@ -123,6 +123,7 @@ class _AssignByEmpState extends State<AssignByEmp> {
  
 
   void assignTask(String idUsersid) async {
+    EasyLoading.show();
      List<DocumentSnapshot> documents = [];
   List cardEx = [];
 
@@ -143,9 +144,34 @@ class _AssignByEmpState extends State<AssignByEmp> {
     
       // print(documents.first["inOut"]);
      var  nameOfUser = documents.first["userName"];
+     print(documents.first["userName"] + "qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
   //    userController.inOut  = documents.first["inOut"];
   //  userController.total = documents.first["totalHours"];
   //    userController.update();
+  //  if (taskController.text.isNotEmpty) {
+      // Assign task to the selected user
+      await FirebaseFirestore.instance.collection('tasks').add({
+        'user': documents.first["userName"],
+        'task': taskController.text,
+        'status': false,
+        'startTime': DateTime.now(),
+        "idUser":idUsersid,
+        "deadLine":deadLineController.text,
+        "completeTime":"null",
+        "totalTime":0,
+        "onTime":"null",
+        "userName":documents.first["userName"],
+        "isRunning":false,
+        "InitialTime":DateTime.now(),
+        "pending":true,
+        "image":""
+
+      });
+
+      // Clear the task text field
+      taskController.clear();
+      EasyLoading.dismiss();
+    // }
 
     setState(() {
       
@@ -156,32 +182,12 @@ class _AssignByEmpState extends State<AssignByEmp> {
     } else {
       Get.snackbar("Information Missing Or invalid",
           "Please write correct information ");
+          EasyLoading.dismiss();
 
     }
    // String username =  await PreferencesManager.instance.getUserName(); 
-    EasyLoading.show();
-    if (taskController.text.isNotEmpty) {
-      // Assign task to the selected user
-      await FirebaseFirestore.instance.collection('tasks').add({
-        'user': nameOfUser,
-        'task': taskController.text,
-        'status': false,
-        'startTime': DateTime.now(),
-        "idUser":idUsersid,
-        "deadLine":deadLineController.text,
-        "completeTime":"null",
-        "totalTime":0,
-        "onTime":"null",
-        "userName":nameOfUser,
-        "isRunning":false,
-        "InitialTime":DateTime.now(),
-        "pending":true
 
-      });
-
-      // Clear the task text field
-      taskController.clear();
-      EasyLoading.dismiss();
-    }
+    print(nameOfUser);
+   
   }
 }

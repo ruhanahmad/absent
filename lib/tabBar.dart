@@ -1,3 +1,4 @@
+import 'package:atten/atten.dart';
 import 'package:atten/completedTask.dart';
 import 'package:atten/fromEmpTask.dart';
 import 'package:atten/homeScreen.dart';
@@ -29,6 +30,7 @@ class _SiteEngineerState extends State<SiteEngineer> {
     AssignByEmp(),
     //  Timess(),
     // TaskAssignmentScreen(),
+    AttendanceScreen(),
   ];
   List<Widget> _widgetOptions = <Widget>[
     ShowTask(),
@@ -38,6 +40,7 @@ class _SiteEngineerState extends State<SiteEngineer> {
     // VideoEditingScreen(),
     //  Timess(),
     FilesPending(),
+     FilesPending(),
   ];
 
   void _onItemTapped(int index) {
@@ -76,6 +79,11 @@ class _SiteEngineerState extends State<SiteEngineer> {
             BottomNavigationBarItem(
               icon: Icon(Icons.comment),
               label: "Task",
+              backgroundColor: Colors.white,
+            ),
+              BottomNavigationBarItem(
+              icon: Icon(Icons.link),
+              label: "Yes",
               backgroundColor: Colors.white,
             ),
           ],

@@ -204,6 +204,7 @@ print(futureDateTime);
                             var onTime = documents[index]['onTime'];
                             var totalTime = documents[index]['totalTime'];
                             var runn = documents[index]['isRunning'];
+                            var userName = documents[index]['userName'];
                                   
                                     var initals = documents[index]['InitialTime'].toDate();
                                      DateTime futureDateTime = DateTime.fromMillisecondsSinceEpoch(totalTime);
@@ -249,6 +250,16 @@ print(futureDateTime);
                                       SizedBox(
                                         height: 10,
                                       ),
+                                       Text(
+                                        "User:  " + userName ,
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
                                       
                                       Row(
                                         mainAxisAlignment:
@@ -268,6 +279,26 @@ print(futureDateTime);
                                             //     : startTimer(ids),
                                             child:
                                                 Text( 'Approve' ),
+                                          ),
+
+                                            ElevatedButton(
+                                            onPressed: ()
+                                          async  {
+             
+          
+      //      await FirebaseFirestore.instance.collection('tasks').doc(ids).update({
+      //   'status': true,
+      //   'completeTime': currentTime,
+      //   "onTime": "Completed on Time",
+      // });
+          
+                                            },
+                                            // => 
+                                            // runn == true
+                                            //     ? pauseTimer(ids, cusName, totalTime)
+                                            //     : startTimer(ids),
+                                            child:
+                                                Text( 'edit' ),
                                           ),
           
                                              IconButton(

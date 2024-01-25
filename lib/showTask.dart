@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 
 
@@ -144,6 +145,49 @@ print(futureDateTime);
     await tasks.doc(document.id).update({'pending': false});
   }
 }
+String playerId ="";
+  Future getPlayerId() async {
+    try {
+
+ var deviceState = await OneSignal.User;
+
+    if (deviceState == null || deviceState.pushSubscription.id == null)
+        return;
+
+
+        setState(() {
+           playerId = deviceState.pushSubscription.id!;
+     
+        });
+
+ 
+     print("playeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeer" + playerId);
+   //await  updateToken();
+    }
+    catch(e){
+     Get.snackbar("title", "not getting PlayerID  ${e}");
+    }
+
+  }
+  void _showImageDialog(BuildContext context,String image){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: Container(
+            width: 1400,
+            height: 1400,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(image),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -156,9 +200,23 @@ print(futureDateTime);
           actions: [
             ElevatedButton(
               onPressed: () async {
+             //  await getPlayerId();
                 await FirebaseAuth.instance.signOut();
                 PreferencesManager.instance.removeUserName();
                 Get.to(() => LoginScreen());
+
+  // final CollectionReference tasksCollection = FirebaseFirestore.instance.collection('tasks');
+
+  // // Get all documents in the collection
+  // QuerySnapshot querySnapshot = await tasksCollection.get();
+
+  // // Update each document with the new field
+  // for (QueryDocumentSnapshot document in querySnapshot.docs) {
+  //   // Update the document with the new field
+  //   await tasksCollection.doc(document.id).update({
+  //     'image': '', // You can set any default value for the "image" field here
+  //   });
+  // }
 
                 // StorageServices.to.remove("userId");
               },
@@ -217,6 +275,7 @@ print(futureDateTime);
                           var onTime = documents[index]['onTime'];
                           var totalTime = documents[index]['totalTime'];
                           var runn = documents[index]['isRunning'];
+                          var image = documents[index]['image'];
                                 
                                   var initals = documents[index]['InitialTime'].toDate();
                                    DateTime futureDateTime = DateTime.fromMillisecondsSinceEpoch(totalTime);
@@ -238,6 +297,20 @@ print(futureDateTime);
                                   children: [
                                     Row(
                                       children: [
+                                         image == ""? 
+                      Container()                
+                     :
+                    
+                       GestureDetector(
+                        onTap: ()async {
+                          _showImageDialog(context,image);
+                        },
+                         child: CircleAvatar(
+                                              radius: 20,
+                                               backgroundImage: NetworkImage(image),
+                                             ),
+                       )
+                    ,
                                         Text(
                                           "Task:  " + task,
                                           style: TextStyle(

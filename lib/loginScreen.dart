@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -97,6 +97,8 @@ class _LoginScreenState extends State<LoginScreen> {
       print('Error signing in: $e');
     }
   }
+
+
 
   @override
   Widget build(BuildContext context) {

@@ -45,6 +45,13 @@ dependencies:
   infinite_canvas: ^0.0.9
   flutter_easyloading: ^3.0.5
   video_player: ^2.8.1
+  http: ^1.1.2
+  onesignal_flutter: ^5.0.4
+  image_picker:
+  firebase_storage:
+  # connectivity_plus: ^5.0.2
+  # permission_handler:
+  # location:
 
  
 
