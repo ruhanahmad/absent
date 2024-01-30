@@ -1,5 +1,6 @@
 import 'package:atten/atten.dart';
 import 'package:atten/completedTask.dart';
+import 'package:atten/excel.dart';
 import 'package:atten/fromEmpTask.dart';
 import 'package:atten/homeScreen.dart';
 import 'package:atten/loginScreen.dart';
@@ -40,7 +41,7 @@ class _SiteEngineerState extends State<SiteEngineer> {
     // VideoEditingScreen(),
     //  Timess(),
     FilesPending(),
-     FilesPending(),
+     ExcelSheet(),
   ];
 
   void _onItemTapped(int index) {
